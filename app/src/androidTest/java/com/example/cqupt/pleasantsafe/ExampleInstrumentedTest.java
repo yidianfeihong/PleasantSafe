@@ -1,4 +1,4 @@
-package com.example.gaode.pleasantsafe;
+package com.example.cqupt.pleasantsafe;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

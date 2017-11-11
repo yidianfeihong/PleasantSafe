@@ -1,4 +1,4 @@
-package com.example.gaode.pleasantsafe;
+package com.example.cqupt.pleasantsafe;
 
 import org.junit.Test;
 
