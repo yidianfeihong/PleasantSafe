@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,14 +7,66 @@
     tools:context="com.example.cqupt.pleasantsafe.HomeActivity">
 
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="这是主界面"
-        android:textColor="#ff0000"
-        android:textSize="28sp"
+        android:background="@drawable/blue_bkg">
 
-        />
+        <ImageView
+            android:id="@+id/home_iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/heima" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/home_iv_logo"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="大白手机管家"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <com.example.cqupt.pleasantsafe.view.HomeTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="萌萌的大白，贴心照顾您的手机，大白在手，天下我有"
+                android:textColor="#ff0000"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
 
-</android.support.constraint.ConstraintLayout>
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="6dp"
+            android:src="@drawable/setting"
+            />
+
+        <GridView
+            android:id="@+id/home_gv_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="3"
+            ></GridView>
+
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
