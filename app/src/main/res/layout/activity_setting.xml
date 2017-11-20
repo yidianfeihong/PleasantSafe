@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.cqupt.pleasantsafe.activity.SettingActivity">
+
+    <TextView
+        style="@style/ActivityTitleStyle"
+        android:text="设置中心" />
+
+
+    <com.example.cqupt.pleasantsafe.view.SettingView
+        android:id="@+id/setting_sv_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_setting_item_top"
+        android:clickable="true"
+        app:title="设置自动更新"
+        android:layout_marginTop="8dp"
+        >
+    </com.example.cqupt.pleasantsafe.view.SettingView>
+
+
+    <com.example.cqupt.pleasantsafe.view.SettingView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_setting_item_bottom"
+        app:title="设置骚扰拦截"
+        >
+    </com.example.cqupt.pleasantsafe.view.SettingView>
+
+
+    <com.example.cqupt.pleasantsafe.view.SettingView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:title="归属地显示设置"
+        android:background="@drawable/selector_setting_item_top"
+        >
+    </com.example.cqupt.pleasantsafe.view.SettingView>
+
+    <com.example.cqupt.pleasantsafe.view.SettingView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_setting_item_bottom"
+        app:title="归属地风格设置"
+        >
+    </com.example.cqupt.pleasantsafe.view.SettingView>
+
+</LinearLayout>

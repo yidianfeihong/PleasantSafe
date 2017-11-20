@@ -1,4 +1,4 @@
-package com.example.cqupt.pleasantsafe;
+package com.example.cqupt.pleasantsafe.activity;
 
 
 import android.app.ProgressDialog;
@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -22,7 +21,11 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cqupt.pleasantsafe.R;
+import com.example.cqupt.pleasantsafe.activity.HomeActivity;
+import com.example.cqupt.pleasantsafe.utils.Constans;
 import com.example.cqupt.pleasantsafe.utils.PackageUtil;
+import com.example.cqupt.pleasantsafe.utils.SharedPreferencesUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -101,10 +104,14 @@ public class SplashActivity extends AppCompatActivity {
                         finish();
                     }
                 }
+
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
                         update();
+
                     }
                 }, 1000);
 
@@ -119,35 +126,38 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void update() {
+        final boolean isToggledOn = SharedPreferencesUtil.getBoolean(getApplicationContext(), Constans.ISAUTOUPDATE, false);
+        if (isToggledOn) {
 
-        try {
-            OkHttpClient okHttpClient = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-            Call call = okHttpClient.newCall(request);
+            try {
+                OkHttpClient okHttpClient = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url(url)
+                        .build();
+                Call call = okHttpClient.newCall(request);
 
-            call.enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
 
-                    enterHome();
-                }
+                        enterHome();
+                    }
 
-                @Override
-                public void onResponse(Call call, final Response response) throws IOException {
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
 
-                    Log.e(TAG, Thread.currentThread().getName());
-                    processJson(response.body().string());
-                }
-            });
+                        Log.e(TAG, Thread.currentThread().getName());
+                        processJson(response.body().string());
+                    }
+                });
 
+            } catch (Exception e) {
 
-        } catch (Exception e) {
+            }
+        }else{
 
-
+            enterHome();
         }
-
 
     }
 

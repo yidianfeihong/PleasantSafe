@@ -1,22 +1,27 @@
-package com.example.cqupt.pleasantsafe;
+package com.example.cqupt.pleasantsafe.activity;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.example.cqupt.pleasantsafe.R;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ImageView mLogo;
     private GridView mGridView;
+    private ImageView mSetting;
+
 
     private final String[] TITLES = new String[]{"手机防盗", "骚扰拦截", "软件管家",
             "进程管理", "流量统计", "手机杀毒", "缓存清理", "常用工具"};
@@ -32,27 +37,68 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        ininView();
+        initView();
 
     }
 
-    private void ininView() {
+    private void initView() {
 
         mLogo = (ImageView) findViewById(R.id.home_iv_logo);
         mGridView = (GridView) findViewById(R.id.home_gv_gridview);
         mGridView.setAdapter(new GridViewAdapter());
-//        setAnimation();
+        mGridView.setOnItemClickListener(this);
+        mSetting = (ImageView) findViewById(R.id.home_iv_setting);
+        mSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enterSetting(v);
+            }
+        });
+        setAnimation();
+
+    }
+
+    private void enterSetting(View v) {
+
+        Intent intent = new Intent(this, SettingActivity.class);
+
+        startActivity(intent);
 
     }
 
     private void setAnimation() {
 
 
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mLogo, "rotationY", 0f, 180f, 0);
-        objectAnimator.setDuration(1000);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mLogo, "rotationY", 0f, 90f, 270f, 360f);
+        objectAnimator.setDuration(2000);
         objectAnimator.setRepeatCount(ObjectAnimator.INFINITE);
         objectAnimator.setRepeatMode(ObjectAnimator.RESTART);
         objectAnimator.start();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        switch (position) {
+            case 0:
+                showSetPasswordDialog();
+
+                break;
+
+        }
+
+
+    }
+
+    private void showSetPasswordDialog() {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = View.inflate(getApplicationContext(), R.layout.home_setpassword_dialog,null);
+        builder.setView(view);
+        builder.show();
+
+
     }
 
     private class GridViewAdapter extends BaseAdapter {
