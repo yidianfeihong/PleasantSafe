@@ -5,16 +5,22 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cqupt.pleasantsafe.R;
+import com.example.cqupt.pleasantsafe.utils.Constans;
+import com.example.cqupt.pleasantsafe.utils.SharedPreferencesUtil;
 
 public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -30,6 +36,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     private final int[] ICONS = new int[]{R.drawable.sjfd, R.drawable.srlj,
             R.drawable.rjgj, R.drawable.jcgl, R.drawable.lltj, R.drawable.sjsd,
             R.drawable.hcql, R.drawable.cygj};
+    private AlertDialog mDialog;
 
 
     @Override
@@ -81,7 +88,15 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
         switch (position) {
             case 0:
-                showSetPasswordDialog();
+
+                String password = SharedPreferencesUtil.getString(getApplicationContext(), Constans.SJFDPSW, null);
+
+                if (TextUtils.isEmpty(password)) {
+                    showSetPasswordDialog();
+
+                } else {
+                    showCheckPasswordDialog();
+                }
 
                 break;
 
@@ -90,13 +105,115 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    private void showCheckPasswordDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = View.inflate(getApplicationContext(), R.layout.home_checkpassword_dialog, null);
+
+        final EditText mPsw = (EditText) view.findViewById(R.id.dialog_et_psw);
+        Button mOk = (Button) view.findViewById(R.id.dialog_ok);
+        Button mCancel = (Button) view.findViewById(R.id.dialog_cancel);
+
+
+        builder.setView(view);
+        mDialog = builder.create();
+        builder.show();
+
+
+        mOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                String password = mPsw.getText().toString();
+                if (TextUtils.isEmpty(password)) {
+
+                    Toast.makeText(HomeActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                String sp_psw = SharedPreferencesUtil.getString(getApplicationContext(), Constans.SJFDPSW, null);
+
+                if (sp_psw.equals(password)) {
+
+                    Toast.makeText(HomeActivity.this, "密码正确", Toast.LENGTH_SHORT).show();
+                    mDialog.dismiss();
+
+                } else {
+
+                    Toast.makeText(HomeActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDialog.dismiss();
+            }
+        });
+
+
+    }
+
     private void showSetPasswordDialog() {
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = View.inflate(getApplicationContext(), R.layout.home_setpassword_dialog,null);
+        View view = View.inflate(getApplicationContext(), R.layout.home_setpassword_dialog, null);
+
+        final EditText mPsw = (EditText) view.findViewById(R.id.dialog_et_psw);
+        final EditText mConfirm = (EditText) view.findViewById(R.id.dialog_et_confirm);
+        Button mOk = (Button) view.findViewById(R.id.dialog_ok);
+        Button mCancel = (Button) view.findViewById(R.id.dialog_cancel);
+
         builder.setView(view);
-        builder.show();
+
+        mDialog = builder.create();
+        mDialog.show();
+
+
+        mOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                String password = mPsw.getText().toString();
+                String confirm = mConfirm.getText().toString();
+
+
+                if (TextUtils.isEmpty(password)) {
+
+                    Toast.makeText(HomeActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+
+                if (confirm.equals(password)) {
+
+                    Toast.makeText(HomeActivity.this, "密码设置成功", Toast.LENGTH_SHORT).show();
+                    SharedPreferencesUtil.saveString(getApplicationContext(), Constans.SJFDPSW, password);
+                    mDialog.dismiss();
+
+                } else {
+
+                    Toast.makeText(HomeActivity.this, "两次密码不一致", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDialog.dismiss();
+            }
+        });
 
 
     }

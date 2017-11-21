@@ -27,6 +27,21 @@ public class SharedPreferencesUtil {
     }
 
 
+    public static String getString(Context context, String key, String defValue) {
+        String isToggledOn = getInstance(context).getString(key, defValue);
+
+        return isToggledOn;
+
+    }
+
+    public static void saveString(Context context, String key, String value) {
+
+        getInstance(context).edit().putString(key, value).commit();
+
+    }
+
+
+
     public static SharedPreferences getInstance(Context context) {
 
         if (sp == null) {
